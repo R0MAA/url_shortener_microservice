@@ -33,15 +33,16 @@ module.exports = function (app) {
   });
 
   // ✅ GET short URL (FCC REQUIRED PARAM NAME)
-  app.get("/api/shorturl/:shorturl", (req, res) => {
-    const short = parseInt(req.params.shorturl);
+app.get("/api/shorturl/:short_url", (req, res) => {
+  const short = parseInt(req.params.short_url);
 
-    const record = urlDatabase.find(u => u.shortUrl === short);
-    if (!record) {
-      return res.json({ error: "invalid url" });
-    }
+  const record = urlDatabase.find(u => u.shortUrl === short);
 
-    res.redirect(record.originalUrl);
-  });
+  if (!record) {
+    return res.json({ error: "invalid url" });
+  }
+
+  res.redirect(record.originalUrl);
+});
 
 };
