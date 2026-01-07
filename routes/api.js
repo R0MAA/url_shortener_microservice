@@ -12,13 +12,11 @@ module.exports = function (app) {
   app.post("/api/shorturl", (req, res) => {
     const originalUrl = req.body.url;
 
-    // Validate URL format
     const parsedUrl = urlParser.parse(originalUrl);
     if (!parsedUrl.protocol || !parsedUrl.hostname) {
       return res.json({ error: "invalid url" });
     }
 
-    // DNS lookup
     dns.lookup(parsedUrl.hostname, (err) => {
       if (err) {
         return res.json({ error: "invalid url" });
@@ -34,9 +32,9 @@ module.exports = function (app) {
     });
   });
 
-  // GET short URL
-  app.get("/api/shorturl/:short", (req, res) => {
-    const short = parseInt(req.params.short);
+  // ✅ GET short URL (FCC REQUIRED PARAM NAME)
+  app.get("/api/shorturl/:shorturl", (req, res) => {
+    const short = parseInt(req.params.shorturl);
 
     const record = urlDatabase.find(u => u.shortUrl === short);
     if (!record) {
